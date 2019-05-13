@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+	<!-- this is not necessary, just need something to keep the spring boot app running -->
+	<bean id="simpleDateMessageGenerator" class="com.test.SFTPServer.simpleInboundAdapter.SimpleDateMessageGenerator" />
+
+	<int:inbound-channel-adapter ref="simpleDateMessageGenerator" 
+									method="generateMessage" 
+									channel="nullChannel">
+		<int:poller cron="*/30 * * * * *"/>						
+	</int:inbound-channel-adapter>
+	
+	
+</beans>
