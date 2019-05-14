@@ -39,9 +39,9 @@ public class S3ObjectRestController {
 	@GetMapping(value="/{bucketName}/files/{filename}")
 	public byte[] getFile(@PathVariable("bucketName")String bucketName,
 									@PathVariable("filename")String filename) throws Exception {
-		InputStream resultInputStream = this.s3DownloadObjectService.downloadObject(bucketName, filename);
+		byte[] resultFileContent = this.s3DownloadObjectService.downloadObject(bucketName, filename);
 		
-		return IOUtils.toByteArray(resultInputStream);
+		return resultFileContent;
 	}
 
 }

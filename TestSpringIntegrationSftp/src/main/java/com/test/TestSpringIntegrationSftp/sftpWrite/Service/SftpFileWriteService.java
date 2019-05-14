@@ -29,11 +29,21 @@ public class SftpFileWriteService {
 		for(Resource resource : resources) {
 			String filename = resource.getFilename();
 			InputStream fileStream = resource.getInputStream();
-			
-			this.sftpRemoteFileTemplate.execute(session -> {
-				session.write(fileStream, filename);
-				return null;
-			});
+
+			try {
+				this.sftpRemoteFileTemplate.execute(session -> {
+					session.write(fileStream, filename);
+					return null;
+				});
+			} finally {
+				if(fileStream != null) {
+					try {
+						fileStream.close();
+					} catch (IOException ioe) {
+						//ignore close failing, but probably should log it properly
+					}
+				}
+			}
 		}
 	}
 }
